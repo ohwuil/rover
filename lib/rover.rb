@@ -1,4 +1,6 @@
 require 'socket'
+require 'rover/blowfish'
+require 'rover/rover_tread'
 
 include Socket::Constants
 
