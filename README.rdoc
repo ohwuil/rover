@@ -1,0 +1,3 @@
+This is a gem which connects to the Brookstone rover.
+
+To use, the machine running the gem must be connected to the rover's wifi.
