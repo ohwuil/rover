@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.authors = ["How Liu"]
   s.date = "2014-06-24"
-  s.description = "Encapsulate Brookstone Rover"
+  s.description = "Brookstone Rover"
   s.email = ""
   s.extra_rdoc_files = ["README.rdoc", "lib/rover.rb"]
   s.files = ["Manifest", "README.rdoc", "Rakefile", "lib/rover.rb", "rover.gemspec"]
