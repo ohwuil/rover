@@ -2,8 +2,8 @@ require 'rubygems'
 require 'rake'
 require 'echoe'
 
-Echoe.new('rover', '0.1.0') do |p|
-  p.description     = "Encapsulate Brookone Rover"
+Echoe.new('rover', '0.1.1') do |p|
+  p.description     = "Encapsulate Brookstone Rover"
   p.url             = ""
   p.author          = "How Liu"
   p.email           = ""
