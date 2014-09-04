@@ -12,6 +12,12 @@ class RoverTread
     @is_moving
   end
 
+  def status
+    puts "\t-- is_moving: #{@is_moving}"
+    puts "\t-- index: #{@index}"
+    puts "\t-- start_time: #{@start_time}"
+  end
+
   def update value
 
     if value == 0

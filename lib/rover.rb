@@ -17,42 +17,28 @@ module Rover
       connect
     end
 
-    def right_tread
-      @right_tread
+    def left_turn x=0.5, time=2
+      set_treads (x.abs * -1), 0
+      sleep time
+      stop
     end
 
-    def left_tread
-      @left_tread
+    def right_turn x=0.5, time=2
+      set_treads 0, (x.abs * -1)
+      sleep time
+      stop
     end
 
-    def left_turn x
-      direction = x > 0 ? -1 : 1
-
-      x.abs.times do
-        set_treads direction, 0
-        sleep 2
-      end
-
+    def backward speed=0.1, time=1
+      set_treads speed.abs, speed.abs
+      sleep time
+      stop
     end
 
-    def right_turn x
-      direction = x > 0 ? -1 : 1
-      x.abs.times do
-        set_treads 0, direction
-        sleep 2
-      end
-    end
-
-    def crawl x
-      shimmy = x > 0 ? -1 : 1
-
-      x.abs.times do
-        set_treads shimmy, 0
-        sleep 1
-        set_treads 0, shimmy
-        sleep 1
-        set_treads 0, 0
-      end
+    def forward speed=-0.1, time=1
+      set_treads speed.abs * -1, speed.abs * -1
+      sleep time
+      stop
     end
 
     def connect
@@ -65,22 +51,8 @@ module Rover
       end
     end
 
-    def do_connect
-      puts "Connecting...."
-      setup_socket
-      connect_with_rover
-      #start_keep_alive_task
-      setup_camera
-      signal_connection
-    end
-
     def disconnect
       @Socket.close
-    end
-
-    def set_treads left, right
-      @left_tread.update(left)
-      @right_tread.update(right)
     end
 
     def lights_on
@@ -91,11 +63,41 @@ module Rover
       set_lights 9
     end
 
+
+    def ping
+      signal_connection
+    end
+
+    def status
+      puts ":: Right Tread :: "
+      puts " #{@right_tread.status}"
+      puts ":: Left Tread :: "
+      puts " #{@left_tread.status}"
+    end
+
     def spin_wheels( wheeldir, speed )
       send_device_control_request( wheeldir, speed )
     end
 
     private
+
+    def do_connect
+      puts "Connecting...."
+      setup_socket
+      connect_with_rover
+      #start_keep_alive_task
+      setup_camera
+      signal_connection
+    end
+
+    def set_treads left, right
+      @left_tread.update(left)
+      @right_tread.update(right)
+    end
+
+    def stop
+      set_treads 0, 0
+    end
 
     def create_key reply
       camera_id = reply[25...37].force_encoding("utf-8")
@@ -186,7 +188,6 @@ module Rover
       bytes = ['M'.ord, 'O'.ord, '_'.ord, c.ord, id, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, n, 0, 0, 0, 0, 0, 0, 0]
       bytes = bytes + contents
       request = bytes.collect{ |b| b.chr}.join
-
       response = @Socket.send(request, 0)
     end
 
@@ -205,7 +206,6 @@ module Rover
     end
 
     def connect_with_rover
-
       rover_response = opening_rover_ping
       key = create_key rover_response
 
