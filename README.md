@@ -1,29 +1,10 @@
-# README #
+This is a gem which connects to the Brookstone rover.
+To use, the computer running the gem must be connected to the rover's wifi.
+Once connected, connect to the rover by creating an instance of the rover
 
-This README would normally document whatever steps are necessary to get your application up and running.
+ e.g. rover = Rover::Rover.new
 
-### What is this repository for? ###
+ Control the rover's movement using the rover's commands
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+ e.g. rover.forward
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
