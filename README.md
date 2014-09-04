@@ -8,3 +8,4 @@ Once connected, connect to the rover by creating an instance of the rover
 
  e.g. rover.forward
 
+TODO - wire up the rover's video camera capabilities.
