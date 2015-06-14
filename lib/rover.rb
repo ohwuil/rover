@@ -8,35 +8,47 @@ module Rover
 
   class Rover
 
-    def initialize( host = "192.168.1.100", port = 80, target_id = 'AC13', target_password = 'AC13')
+    def initialize( host = "192.168.1.100", port = 80, target_id = 'AC13', target_password = 'AC13', speed = 1)
+      @SPEED_MAP = { 1=> 0.1, 2=>0.2, 3=>0.3, 4=>0.4, 5=>0.5, 6=>0.6, 7=>0.7, 8=>0.8, 9=>0.9, 10=>1 }
       @HOST = host
       @PORT = port
       @TARGET_ID = target_id
       @TARGET_PASSWORD = target_password
+      @SPEED = speed
+      @ROVER_SPEED = @SPEED_MAP[@SPEED]
       setup_treads
       connect
     end
 
-    def left_turn x=0.5, time=2
+    def speed
+      @SPEED
+    end
+
+    def speed=speed
+      @SPEED=speed
+      @ROVER_SPEED = @SPEED_MAP[@SPEED]
+    end
+
+    def right_turn x=0.5, time=2
       set_treads (x.abs * -1), 0
       sleep time
       stop
     end
 
-    def right_turn x=0.5, time=2
+    def left_turn x=0.5, time=2
       set_treads 0, (x.abs * -1)
       sleep time
       stop
     end
 
-    def backward speed=0.1, time=1
-      set_treads speed.abs, speed.abs
+    def backward time=1
+      set_treads @ROVER_SPEED.abs, @ROVER_SPEED.abs
       sleep time
       stop
     end
 
-    def forward speed=-0.1, time=1
-      set_treads speed.abs * -1, speed.abs * -1
+    def forward time=1
+      set_treads @ROVER_SPEED.abs * -1, @ROVER_SPEED.abs * -1
       sleep time
       stop
     end
@@ -91,12 +103,15 @@ module Rover
     end
 
     def set_treads left, right
+      puts "-- Setting Treads --"
+      puts "left= #{left} :: right= #{right}"
       @left_tread.update(left)
       @right_tread.update(right)
     end
 
     def stop
       set_treads 0, 0
+      puts "-- Stopped --"
     end
 
     def create_key reply
@@ -108,7 +123,7 @@ module Rover
       lights_on
       sleep 1
       lights_off
-      puts "===CONNECTED==="
+      puts "====== CONNECTED ======"
     end
 
     def setup_socket(timeout = 1)
